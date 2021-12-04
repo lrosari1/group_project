@@ -18,9 +18,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        for(int i=0;i<20;i++){
-            mWordList.add("Word "+i);
-        }
+
+        //Add Base Genres
+        mWordList.add("Action");
+        mWordList.add("Sports");
+        mWordList.add("Shooter");
+        mWordList.add("Strategy");
+        mWordList.add("Survival");
+        mWordList.add("MMORPG");
+
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new WordListAdapter(this, mWordList);
