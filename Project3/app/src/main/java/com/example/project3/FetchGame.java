@@ -25,11 +25,10 @@ public class FetchGame extends AsyncTask<String, Void, String> {
         this.mDescription = new WeakReference<>(description);
     }
 
-    protected String getBookInfo(String query) throws IOException {
-        //Google Books API URL
-        String apiURL = "https://www.googleapis.com/books/v1/volumes?q=";
-        //Append query
-        // String apiURL = "https://quotable.io/quotes?page=1";
+    protected String getAPI(String query) throws IOException {
+        //freetogame API
+        String apiURL = "https://www.freetogame.com/api/games";
+
         apiURL += query;
 
         //Make connection to API
@@ -50,14 +49,14 @@ public class FetchGame extends AsyncTask<String, Void, String> {
             builder.append("\n");
         }
         String jsonString = builder.toString();
-        Log.d("FetchBookTagJsonString", jsonString);
+        Log.d("FetchGameJsonString", jsonString);
         return jsonString;
     }
 
     protected String doInBackground(String... strings) {
         String jsonString = null;
         try{
-            jsonString = getBookInfo(strings[0]);
+            jsonString = getAPI();
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -67,7 +66,7 @@ public class FetchGame extends AsyncTask<String, Void, String> {
     protected  void onPostExecute(String s){
         super.onPostExecute(s);
         String title = null;
-        String authors = null;
+        String description = null;
         JSONObject jsonObject = null;
         JSONArray itemsArray = null;
         int i = 0;
@@ -75,13 +74,13 @@ public class FetchGame extends AsyncTask<String, Void, String> {
         try {
             jsonObject = new JSONObject(s);
             itemsArray = jsonObject.getJSONArray("items");
-            while(i<itemsArray.length() && title==null & authors==null) {
+            while(i<itemsArray.length() && title==null & description==null) {
                 JSONObject book = itemsArray.getJSONObject(i);
                 JSONObject volumeInfo = book.getJSONObject("volumeInfo");
                 title = volumeInfo.getString("title");
-                authors = volumeInfo.getString("authors");
-                mAuthorText.get().setText(authors);
-                mTitleText.get().setText(title);
+                description = volumeInfo.getString("short_description");
+                mDescription.get().setText(description);
+                mGameTitle.get().setText(title);
                 i++;
             }
 
