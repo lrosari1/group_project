@@ -19,10 +19,10 @@ public class WordListAdapter extends
     private LayoutInflater mInflater;
     private LinkedList<String> mWordList;
     private Context context;
+    private String chosenWord;
 
     //the constructor can take any parameters we need
-    public WordListAdapter(Context context,
-                           LinkedList<String> wordList) {
+    public WordListAdapter(Context context, LinkedList<String> wordList) {
         //use this to create the layout
         mInflater = LayoutInflater.from(context);
         mWordList = wordList;
@@ -56,6 +56,7 @@ public class WordListAdapter extends
         private TextView mWordItemView;
         private WordListAdapter adapter;
 
+
         public WordViewHolder(View itemView, WordListAdapter adapter) {
             super(itemView);
             mWordItemView = itemView.findViewById(R.id.word);
@@ -65,15 +66,16 @@ public class WordListAdapter extends
 
         @Override
         public void onClick(View v) {
-            /* int position = getLayoutPosition();
+            int position = getLayoutPosition();
             String word = mWordList.get(position);
-            mWordList.set(position,"Clicked! "+ word);
-            adapter.notifyDataSetChanged();
-            */
+            chosenWord = word;
+
             Intent intent = new Intent(context, WordClicked.class);
             context.startActivity(intent);
 
+
         }
+
     }
 
 }
